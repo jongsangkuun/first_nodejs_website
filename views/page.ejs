@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Freeboard</title>
+        <link href="/static/board/css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">Start Cyber Security</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+            ><!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="../../" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">community</div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <!--<a class="nav-link collapsed" href="./notice.html"><div class="sb-nav-link-icon">
+                                    <i class="fa fa-bullhorn"></i></div>
+                                공지사항
+                                <div class="sb-sidenav-collapse-arrow"><i class="sb-nav-link-icon"></i></div></a> -->
+                                <a class="nav-link collapsed" href="./index.html"><div class="sb-nav-link-icon">
+                                    <i class="fa fa-bullhorn"></i></div>
+                                자유게시판
+                                <div class="sb-sidenav-collapse-arrow"><i class="sb-nav-link-icon"></i></div></a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid">
+                            <h1 class="mt-4">Board</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">Cyber Student Board</li>
+                            </ol>
+                        </div>
+                        <br>
+
+                           <div class="container">
+
+                            <div class="container" align="right">
+
+                                <input type="button" value="글쓰기" class="btn btn-secondary mx-1 mt-2" 
+                               onclick="location.href='/board/write'">
+
+                            </div>
+                            <br>
+
+            <table class="table table-hover" >
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>날짜</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <!-- page 1 length 0 pagenum 10 -->
+                <tbody>
+                    <%
+                    for(var i = (page * page_num) - page_num; i < (page * page_num); i++) {
+                    if(i > length){
+                        i++;
+                    }else{
+                        var data = rows[i]
+                    %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td><a href="/board/read/<%= data.num %>"><%= data.title %></a></td>
+                        <td><%= data.name %></td>
+                        <td><%= data.regdate %></td>
+                        <td><%= data.hit %></td>
+                    </tr>
+                    <% }
+                    }
+                    %>
+                </tbody> 
+            </table>
+        
+            <script>
+            
+             $(function () {
+                let container = $('#pagination justify-content-center');
+                container.pagination ( {
+
+                    dataSource: ['#table table-hover'],
+                    pageSize :5,
+                    autoHidePrevious : true,
+                    autoHideNext : true,
+                    callback: function(data,pagination) {
+
+                        var html = template(data);
+                        dataContainer.html()
+                    }
+                })
+
+             })
+            </script>
+        
+            <br>
+
+            
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <%
+                for(var j = 0; j <= length / page_num; j++){
+                %>
+                <li class="page-item"><a class="page-link" href="/board/page/<%= j + 1 %>"><%= j + 1 %></a></li>
+                <%
+                }
+                %>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+            
+        </main>
+        </body>
+    </html>
