@@ -15,8 +15,6 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : false }));
 
-
-
 app.use('/',IndexRouter);
 app.use('/sign',LoginRouter);
 app.use('/board',BoardRouter);
